@@ -1,107 +1,190 @@
-<html>
-    <head>
-       <title>LOGIN FORM</title> 
-
-
-<style>
-
-body
-{
-margin: 0;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LOGIN FORM</title> 
+    <style>
+        body {
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #2c3e50; /* Dark background to make light text pop */
-            font-family: sans-serif;
-}
+            /* Gradient fallback with your local image */
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('E:/imgs/main.jpg') no-repeat center center/cover;
+            background-color: #2c3e50;
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+        }
 
+        /* Party Animation Zone */
+        #party-zone {
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            box-sizing: border-box;
+            pointer-events: none;
+            z-index: 10;
+        }
 
+        .party-item {
+            width: 0;
+            height: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 80px solid #f1c40f;
+            position: relative;
+            animation: bounce 0.5s infinite alternate, rainbow 1s infinite linear;
+        }
 
-input[type="text"], 
-        input[type="password"] {
+        .party-item::after {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -12px;
+            width: 25px;
+            height: 25px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 15px white;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0) rotate(-10deg); }
+            to { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        /* Login Box Styling */
+        .login-box {
+            width: 400px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0px 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+            transition: all 0.5s ease;
+            z-index: 5;
+        }
+
+        h1 { color: #2c3e50; margin-bottom: 30px; }
+
+        .input-group { text-align: left; margin-bottom: 20px; }
+
+        label { font-weight: bold; display: block; margin-bottom: 5px; color: #34495e; }
+
+        input {
             width: 100%;
             padding: 12px;
             border: 1px solid #ddd;
             border-radius: 6px;
-            box-sizing: border-box; /* Ensures padding doesn't break width */
+            box-sizing: border-box;
             outline: none;
-            transition: border-color 0.3s;
+            transition: 0.3s;
         }
 
+        input:focus { border-color: #3498db; box-shadow: 0 0 5px rgba(52,152,219,0.5); }
 
-
-.submit-btn {
+        .submit-btn {
             width: 100%;
             padding: 12px;
             border: none;
             border-radius: 6px;
-            background-color: #3498db;
+            background-color: #27ae60;
             color: white;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: 0.3s;
         }
 
+        .submit-btn:hover { background-color: #2ecc71; transform: scale(1.02); }
 
-input:focus {
-            border-color: #3498db;
+        .success-text {
+            display: none;
+            color: #27ae60;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            animation: fadeIn 0.5s;
         }
 
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
 
-.login-box
-{
-width:500px;
-height:500px;
-background-color: white;  
-    width: 400px;             
-    height: 400px;            
-    margin: 0 auto;          
-    padding: 30px;          
-    border-radius: 10px;      
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+    <div id="party-zone">
+        <div class="party-item"></div>
+        <div class="party-item"></div>
+    </div>
 
-}
-</style>
+    <div class="login-box" id="loginBox">
+        <h1>LOGIN FORM</h1>
+        <form id="loginForm">
+            <div class="input-group">
+                <label>USERNAME</label>
+                <input type="text" id="uname" placeholder="Enter username..." required>
+            </div>
+            <div class="input-group">
+                <label>PASSWORD</label>
+                <input type="password" id="pwd" placeholder="Enter password..." required>
+            </div>
+            <button type="button" id="btn" class="submit-btn">SUBMIT</button>
+        </form>
+        <div id="success-msg" class="success-text">Redirecting...</div>
+    </div>
 
+    <script>
+        const n = document.getElementById("uname");
+        const p = document.getElementById("pwd");
+        const btn = document.getElementById("btn");
+        const partyZone = document.getElementById("party-zone");
+        const loginBox = document.getElementById("loginBox");
+        const successMsg = document.getElementById("success-msg");
+        const form = document.getElementById("loginForm");
 
+        btn.addEventListener("click", function () {
+            const username = n.value.trim();
+            const password = p.value.trim();
 
+            if (username === "") {
+                alert("Fill the Username Field");
+                n.focus();
+            } 
+            else if (password === "") {
+                alert("Fill The Password Field");
+                p.focus();
+            } 
+            else {
+                // SUCCESS LOGIC
+                // 1. Hide the form
+                form.style.display = "none";
+                successMsg.style.display = "block";
+                
+                // 2. Show the party items on left and right
+                partyZone.style.display = "flex";
 
-    </head>
-    <body style="background-image: url('E:/imgs/main.jpg');">
-  <center>       
-  
-<div class="login-box" style="background-image: url('E:/imgs/new1.jpg');">
-     <center>  <h1 style="font-color:blue"> LOGIN FORM </h1>
-<form onclick="">
-    <label> USERNAME: </label>
-<input type="text" required name="username" id="uname"><br><br>
-<label> PASSWORD: </label>
-<input type="text" required name="pwd" id="pwd"><br><br>    
-<button style="background-color:green" id="btn" class="submit-btn" >SUBMIT</button>
-</form>
-</div></center>
-    </body>
+                // 3. Optional: make the box look like it's celebrating
+                loginBox.style.borderColor = "#27ae60";
+                loginBox.style.transform = "scale(1.1)";
 
-
-<script>
-var n=document.getElementById("uname");
-var p=document.getElementById("pwd");
-  document.getElementById("btn").addEventListener("click", function () {
-    if(n.value.trim() ==="")
-  {
-    alert("Fill the Username Field");
-  }
-  else if(p.value.trim() ===""){
-    alert("Fill The Password Field");
-  }
-  else{
-    alert("SucessFully Loggined");
-window.location.href = "";
-  }
-  });
-
-
-</script>
+                // 4. Redirect after animation
+                setTimeout(function() {
+                    window.location.href = "qr.html";
+                }, 2500);
+            }
+        });
+    </script>
+</body>
 </html>

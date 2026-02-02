@@ -1,0 +1,81 @@
+<html>
+<head>
+    <title>Sign In</title>
+    <style>
+        body {
+            background-image: url('‪C:\\Users\\Student\\Pictures\\ai-generated-beautiful-sunset-over-the-sea-colorful-sky-and-sea-free-photo.jpeg');
+            }
+        .box {
+            width: 350px;
+            padding: 20px;
+            margin: 100px auto; 
+            background-color:lightcoral;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <center>
+            <h1>Sign In</h1>
+        </center>
+
+        <form name="myForm" onsubmit="return validateForm()">
+            <center>
+                <label>Name: </label>
+                <input type="text" name="name" required>
+                <br><br>
+
+                <label>Email: </label>
+                <input type="email" name="email" required>
+                <br><br>
+
+                <label>Password: </label>
+                <input type="password" name="password" required>
+                <br><br>
+
+                <label>Phone No.: </label>
+                <input type="tel" name="phone" placeholder="0123456789">
+                <br><br>
+
+                <input type="submit" value="Login">
+            </center>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            let name = document.forms["myForm"]["name"].value;
+            let email = document.forms["myForm"]["email"].value;
+            let password = document.forms["myForm"]["password"].value;
+            let phone = document.forms["myForm"]["phone"].value;
+
+            if (name === "") {
+                alert("Name must be filled out");
+                return false;
+            }
+
+            let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            if (!email.match(emailPattern)) {
+                alert("Please enter a valid email address");
+                return false;
+            }
+
+            if (password.length < 6) {
+                alert("Password must be at least 6 characters long");
+                return false;
+            }
+
+            let phonePattern = /^[6-9][0-9]{9}$/;
+            if (phone !== "" && !phone.match(phonePattern)) {
+                alert("Phone number must be 10 digits starting with 6-9");
+                return false;
+            }
+
+            window.location.href = "success.html";
+            return false;
+        }
+    </script>
+
+</body>
+</html>
