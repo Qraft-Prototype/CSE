@@ -10,14 +10,14 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            /* Gradient fallback with your local image */
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('E:/imgs/main.jpg') no-repeat center center/cover;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                        url('E:/imgs/main.jpg') no-repeat center center/cover;
             background-color: #2c3e50;
             font-family: 'Segoe UI', sans-serif;
             overflow: hidden;
         }
 
-        /* Party Animation Zone */
+        /* Party Animation */
         #party-zone {
             display: none;
             position: fixed;
@@ -28,7 +28,6 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 50px;
-            box-sizing: border-box;
             pointer-events: none;
             z-index: 10;
         }
@@ -65,11 +64,11 @@
             100% { filter: hue-rotate(360deg); }
         }
 
-        /* Login Box Styling */
+        /* Login Box */
         .login-box {
             width: 400px;
             padding: 40px;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255,255,255,0.95);
             border-radius: 15px;
             box-shadow: 0px 10px 30px rgba(0,0,0,0.5);
             text-align: center;
@@ -77,38 +76,53 @@
             z-index: 5;
         }
 
-        h1 { color: #2c3e50; margin-bottom: 30px; }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
 
-        .input-group { text-align: left; margin-bottom: 20px; }
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
 
-        label { font-weight: bold; display: block; margin-bottom: 5px; color: #34495e; }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #34495e;
+        }
 
         input {
             width: 100%;
             padding: 12px;
-            border: 1px solid #ddd;
             border-radius: 6px;
-            box-sizing: border-box;
+            border: 1px solid #ddd;
             outline: none;
             transition: 0.3s;
         }
 
-        input:focus { border-color: #3498db; box-shadow: 0 0 5px rgba(52,152,219,0.5); }
+        input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52,152,219,0.5);
+        }
 
         .submit-btn {
             width: 100%;
             padding: 12px;
-            border: none;
-            border-radius: 6px;
             background-color: #27ae60;
             color: white;
-            font-size: 16px;
             font-weight: bold;
+            border: none;
+            border-radius: 6px;
             cursor: pointer;
             transition: 0.3s;
         }
 
-        .submit-btn:hover { background-color: #2ecc71; transform: scale(1.02); }
+        .submit-btn:hover {
+            background-color: #2ecc71;
+            transform: scale(1.02);
+        }
 
         .success-text {
             display: none;
@@ -119,16 +133,37 @@
             animation: fadeIn 0.5s;
         }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Login Icon */
+        #loginIcon {
+            width: 240px;
+            height: 240px;
+            margin-right: 40px;
+            transition: transform 0.5s ease;
+        }
     </style>
 </head>
+
 <body>
 
+    <!-- Key / Tick Icon -->
+    <img
+        id="loginIcon"
+        src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png"
+        alt="Login Icon"
+    >
+
+    <!-- Party Zone -->
     <div id="party-zone">
         <div class="party-item"></div>
         <div class="party-item"></div>
     </div>
 
+    <!-- Login Box -->
     <div class="login-box" id="loginBox">
         <h1>LOGIN FORM</h1>
         <form id="loginForm">
@@ -136,12 +171,15 @@
                 <label>USERNAME</label>
                 <input type="text" id="uname" placeholder="Enter username..." required>
             </div>
+
             <div class="input-group">
                 <label>PASSWORD</label>
                 <input type="password" id="pwd" placeholder="Enter password..." required>
             </div>
+
             <button type="button" id="btn" class="submit-btn">SUBMIT</button>
         </form>
+
         <div id="success-msg" class="success-text">Redirecting...</div>
     </div>
 
@@ -153,38 +191,35 @@
         const loginBox = document.getElementById("loginBox");
         const successMsg = document.getElementById("success-msg");
         const form = document.getElementById("loginForm");
+        const loginIcon = document.getElementById("loginIcon");
 
         btn.addEventListener("click", function () {
-            const username = n.value.trim();
-            const password = p.value.trim();
-
-            if (username === "") {
+            if (n.value.trim() === "") {
                 alert("Fill the Username Field");
                 n.focus();
-            } 
-            else if (password === "") {
-                alert("Fill The Password Field");
+            } else if (p.value.trim() === "") {
+                alert("Fill the Password Field");
                 p.focus();
-            } 
-            else {
-                // SUCCESS LOGIC
-                // 1. Hide the form
+            } else {
+                // Success actions
                 form.style.display = "none";
                 successMsg.style.display = "block";
-                
-                // 2. Show the party items on left and right
                 partyZone.style.display = "flex";
 
-                // 3. Optional: make the box look like it's celebrating
+                // Change key to tick
+                loginIcon.src = "https://cdn-icons-png.flaticon.com/512/1828/1828640.png";
+                loginIcon.style.transform = "scale(1.2) rotate(360deg)";
+
                 loginBox.style.borderColor = "#27ae60";
                 loginBox.style.transform = "scale(1.1)";
 
-                // 4. Redirect after animation
-                setTimeout(function() {
-                    window.location.href = "qr.html";
+                // Redirect
+                setTimeout(() => {
+                    window.location.href = "Signin.html";
                 }, 2500);
             }
         });
     </script>
+
 </body>
 </html>
