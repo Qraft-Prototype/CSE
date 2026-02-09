@@ -6,31 +6,73 @@
 
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
       padding: 40px;
       text-align: center;
+      color: #333333;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #222222;
+      text-shadow: 8px 8px 8px rgba(0,0,0,0.2);
     }
 
     input {
-      padding: 10px;
-      width: 250px;
+      padding: 12px;
+      width: 280px;
       font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #6a5acd;
+      box-shadow: 0 0 8px rgba(106,90,205,0.4);
     }
 
     button {
-      padding: 10px 15px;
+      padding: 12px 20px;
       font-size: 16px;
       cursor: pointer;
       margin-left: 10px;
+      border: none;
+      border-radius: 6px;
+      background: #6a5acd;
+      color: #fff;
+      font-weight: bold;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background: #483d8b;
+      transform: scale(1.05);
     }
 
     #qrBox {
-      margin-top: 20px;
+      margin-top: 30px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    #qrBox img {
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+
+    #qrBox img:hover {
+      transform: rotate(3deg) scale(1.05);
     }
   </style>
 </head>
-<body>
+<body>  
 
   <h1>QR Code Generator</h1>
 
