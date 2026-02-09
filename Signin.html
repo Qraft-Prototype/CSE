@@ -3,53 +3,55 @@
     <title>Sign In</title>
     <style>
         body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        background-image: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        font-family: Arial, sans-serif;
-    }
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
+        }
     </style>
 </head>
 
 <body>
-    <div class="box">
+
+    <div class="box" id="loginPage">
         <center>
             <h1>Sign In</h1>
-        </center>
 
-        <form name="myForm" onsubmit="return validateForm()">
-            <center>
-                <label>Name: </label>
-                <input type="text" name="name" required>
-                <br><br>
+            <form name="myForm" onsubmit="return validateForm()">
+                <label>Name:</label>
+                <input type="text" name="name" required><br><br>
 
-                <label>Email: </label>
-                <input type="email" name="email" required>
-                <br><br>
+                <label>Email:</label>
+                <input type="email" name="email" required><br><br>
 
-                <label>Password: </label>
-                <input type="password" name="password" required>
-                <br><br>
+                <label>Password:</label>
+                <input type="password" name="password" required><br><br>
 
-                <label>Phone No.: </label>
-                <input type="tel" name="phone" placeholder="0123456789">
-                <br><br>
+                <label>Phone No.:</label>
+                <input type="tel" name="phone" placeholder="0123456789"><br><br>
 
                 <input type="submit" value="Sign In">
-            </center>
-        </form>
+            </form>
+        </center>
+    </div>
+
+    <div id="successPage" style="display:none;">
+        <center>
+            <h1>YOU ARE SUCCESSFULLY SIGNED IN ✅</h1>
+            <p>Redirecting to login page...</p>
+        </center>
     </div>
 
     <script>
         function validateForm() {
-            let name = document.forms["myForm"]["name"].value;
-            let email = document.forms["myForm"]["email"].value;
-            let password = document.forms["myForm"]["password"].value;
-            let phone = document.forms["myForm"]["phone"].value;
+            let name = document.myForm.name.value;
+            let email = document.myForm.email.value;
+            let password = document.myForm.password.value;
+            let phone = document.myForm.phone.value;
 
             if (name === "") {
                 alert("Name must be filled out");
@@ -73,8 +75,16 @@
                 return false;
             }
 
-            window.location.href = "success.html";
-            return false;
+            document.getElementById("loginPage").style.display = "none";
+            document.getElementById("successPage").style.display = "block";
+
+            setTimeout(() => {
+                document.getElementById("successPage").style.display = "none";
+                document.getElementById("loginPage").style.display = "block";
+                document.myForm.reset();
+            }, 3000);
+
+            return fals
         }
     </script>
 

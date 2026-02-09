@@ -17,7 +17,7 @@
       font-size: 2.5em;
       margin-bottom: 20px;
       color: #222222;
-      text-shadow: 8px 8px 8px rgba(0,0,0,0.2);
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
     }
 
     input {
@@ -27,7 +27,7 @@
       border: 2px solid #ddd;
       border-radius: 6px;
       outline: none;
-      transition: border-color 0.3s ease;
+      transition: border-color 0.150s ease;
     }
 
     input:focus {
@@ -70,6 +70,21 @@
     #qrBox img:hover {
       transform: rotate(3deg) scale(1.05);
     }
+
+    select {
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      outline: none;
+      margin-left: 10px;
+      transition: border-color 0.3s ease;
+    }
+
+    select:focus {
+      border-color: #6a5acd;
+      box-shadow: 0 0 8px rgba(106,90,205,0.4);
+    }
   </style>
 </head>
 <body>  
@@ -77,6 +92,7 @@
   <h1>QR Code Generator</h1>
 
   <input type="text" id="qrInput" placeholder="Enter text or URL" />
+  <button id="addBtn">+</button>
   <button id="generateBtn">Generate QR</button>
 
   <div id="qrBox"></div>
@@ -102,7 +118,7 @@
       }
     };
 
-    // Event handling
+    // Event handling for Generate button
     document.getElementById("generateBtn").addEventListener("click", function () {
       qrGenerator.text = document.getElementById("qrInput").value;
       qrGenerator.generateQR();
@@ -114,6 +130,24 @@
         qrGenerator.text = event.target.value;
         qrGenerator.generateQR();
       }
+    });
+
+    // Event handling for + button
+    document.getElementById("addBtn").addEventListener("click", function () {
+      const qrBox = document.getElementById("qrBox");
+
+      // Create select element
+      const select = document.createElement("select");
+
+      // Add options
+      select.innerHTML = `
+        <option value="Images">Images</option>-
+        <option value="videos">Videos</option>
+        <option value="Links">Links</option>
+      `;
+
+      // Append to qrBox
+      qrBox.appendChild(select);
     });
   </script>
 
