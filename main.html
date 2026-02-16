@@ -1,172 +1,251 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>QRAFT-NEXTGEN</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
+<meta charset="UTF-8">
+<title>QRAFT – QR Generator</title>
 
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 24px;
-      background-color: #1f2937;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-    /* Left side (icon + title) */
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .nav-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .logo {
-      color: #fff;
-      font-size: 20px;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    /* Right side buttons */
-    .nav-right {
-      display: flex;
-      gap: 12px;
-    }
-
-    .nav-btn {
-      padding: 8px 16px;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .login-btn {
-      background: transparent;
-      color: #fff;
-      border: 1px solid #fff;
-    }
-
-    .signup-btn {
-      background: #3b82f6;
-      color: #fff;
-    }
-
-    .nav-btn:hover {
-      opacity: 0.85;
-    }
-
-    .container {
-  padding: 40px 24px;
-  max-width: 900px;
-  margin: auto;
-  color: #1f2937;
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-image: url("https://media.istockphoto.com/id/1356565277/photo/modern-abstract-wavy-background.jpg");
+  background-size: cover;
 }
 
-.container h1 {
-  font-size: 36px;
-  margin-bottom: 10px;
+/* ===== NAVBAR ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background-image: url("https://cdn.dribbble.com/userupload/40406786/file/original-2f7433c1363ea57ed6fbd234122660a3.jpg");
+  background-size: cover;
 }
 
-.subtitle {
-  font-size: 18px;
-  color: #4b5563;
-  margin-bottom: 30px;
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.container h2 {
-  margin-top: 30px;
-  font-size: 24px;
+.nav-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
 }
 
-.container p {
-  line-height: 1.6;
+.logo {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
 }
 
-.container ul {
-  margin-left: 20px;
-  line-height: 1.8;
+.nav-right {
+  display: flex;
+  gap: 12px;
 }
-.center-btn {
+
+.nav-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.login-btn {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+.signup-btn {
+  background: #22c55e;
+}
+
+/* ===== MAIN BOX ===== */
+.main-box {
+  width: 520px;
+  height: 540px;
+  background: #000;
+  margin: 70px auto;
+  border-radius: 16px;
+  padding: 20px;
+  color: #fff;
+}
+
+/* ===== TOP LINKS ===== */
+.main-links {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  gap: 26px;
 }
-  </style>
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #22c55e;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.link-btn svg {
+  width: 32px;
+  height: 32px;
+  fill: #22c55e;
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  display: none;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.section.active {
+  display: block;
+}
+
+input[type="text"],
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 12px;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.controls input,
+.controls button {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+}
+
+.controls button {
+  background: #22c55e;
+  cursor: pointer;
+}
+
+#qrcode {
+  background: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 12px auto;
+  width: fit-content;
+}
+
+.download-btn {
+  border: 1px solid #22c55e;
+  background: transparent;
+  color: #22c55e;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+</style>
 </head>
+
 <body>
 
-
-  <nav class="navbar">
-    <!-- Left: Icon + Title -->
-    <div class="nav-left">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=QR%20GEN" alt="Logo" class="nav-icon">
-      <a href="#" class="logo">QRAFT</a>
-    </div>
-
-    <!-- Right: Buttons -->
-    <div class="nav-right">
-     <a href="login.html"><button class="nav-btn login-btn">Login</button></a>
-      <a href="Signin.html"><button class="nav-btn signup-btn">Sign Up</button></a>
-    </div>
-  </nav>
-<marquee>THE PAGE IS CURRENTLY MAINTANACE.</marquee>
-
-<div class="container">
-    <h1>QR Code Generator</h1>
-    <p class="subtitle">
-      Generate smart, fast, and customizable QR codes using QRAFT – NextGen QR solutions.
-    </p>
-  
-    <h2>What is a QR Code Generator?</h2>
-    <p>
-      A QR Code Generator allows users to convert information into a scannable QR code.
-      These QR codes can be scanned using a mobile phone to instantly access digital content.
-    </p>
-  
-    <h2>What Can You Generate?</h2>
-    <ul>
-      <li>🔗 Website / URL QR Codes</li>
-      <li>📝 Text-based QR Codes</li>
-      <li>🖼️ Image & Media QR Codes</li>
-      <li>📧 Email QR Codes</li>
-      <li>📞 Phone Number QR Codes</li>
-      <li>📍 Location / Map QR Codes</li>
-    </ul>
-  
-    <h2>Customization & Modifications</h2>
-    <ul>
-      <li>🎨 Change QR color & background</li>
-      <li>🔲 Resize QR code (small to large)</li>
-      <li>🖼️ Add logo or image in center</li>
-      <li>🌙 Dark mode QR codes</li>
-      <li>📥 Download as PNG or JPG</li>
-    </ul>
-  
-    <h2>Why Choose QRAFT?</h2>
-    <p>
-      QRAFT provides a fast, user-friendly, and modern QR generation experience with
-      advanced customization options for personal and professional use.
-    </p>
-    <div class="center-btn"></div>
-    <button
-    class="nav-btn signup-btn"
-    style="background-color: rgb(31, 134, 31);"
-    onclick="window.location.href='Dom.html'">
-    Generate QR
-  </button>
-</div>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=QRAFT" class="nav-icon">
+    <span class="logo">QRAFT</span>
   </div>
+  <div class="nav-right">
+    <button class="nav-btn login-btn" onclick="location.href='login.html'">Login</button>
+    <button class="nav-btn signup-btn" onclick="location.href='Signin.html'">Sign Up</button>
+  </div>
+</nav>
+
+<!-- MAIN BOX -->
+<div class="main-box">
+
+  <!-- TOP LINKS -->
+  <div class="main-links">
+
+    <button class="link-btn" onclick="showSection('url')">
+      <!-- LINK ICON -->
+      <svg viewBox="0 0 24 24"><path d="M10.6 13.4a1 1 0 0 0 1.4 0l3.5-3.5a3 3 0 1 0-4.2-4.2l-1.4 1.4"/><path d="M13.4 10.6a1 1 0 0 0-1.4 0L8.5 14.1a3 3 0 1 0 4.2 4.2l1.4-1.4"/></svg>
+      URL
+    </button>
+
+    <button class="link-btn" onclick="showSection('pdf')">
+      <!-- PDF ICON -->
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+      PDF
+    </button>
+
+    <button class="link-btn">
+      <!-- TEXT ICON -->
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+      Text
+    </button>
+
+    <button class="link-btn">
+      <!-- CONTACT ICON -->
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Contact
+    </button>
+
+  </div>
+
+  <!-- URL SECTION -->
+  <div id="url" class="section">
+    <input type="text" id="urlInput" placeholder="Enter URL">
+    <div class="controls">
+      <input type="color" id="qrColor" value="#000000">
+      <button onclick="generateQR()">Generate</button>
+    </div>
+    <div id="qrcode"></div>
+    <button class="download-btn" onclick="downloadQR()">Download QR</button>
+  </div>
+
+  <!-- PDF SECTION -->
+  <div id="pdf" class="section">
+    <input type="file" accept=".pdf">
+    <p style="color:#9ca3af;font-size:14px;">Upload PDF to generate QR</p>
+  </div>
+
+</div>
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function generateQR() {
+  const url = document.getElementById("urlInput").value;
+  const color = document.getElementById("qrColor").value;
+  document.getElementById("qrcode").innerHTML = "";
+  new QRCode("qrcode", { text: url, width: 180, height: 180, colorDark: color });
+}
+
+function downloadQR() {
+  const canvas = document.querySelector("#qrcode canvas");
+  const link = document.createElement("a");
+  link.download = "qr-code.png";
+  link.href = canvas.toDataURL();
+  link.click();
+}
+</script>
+
 </body>
 </html>

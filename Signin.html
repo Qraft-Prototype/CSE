@@ -1,92 +1,224 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Sign In</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            background-image: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            font-family: Arial, sans-serif;
-        }
-    </style>
+<title>Sign In</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    background-image:url("https://images.unsplash.com/photo-1506744038136-46273834b3fb");
+    background-size:cover;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Arial;
+}
+
+.box{
+    background:rgba(255,255,255,0.95);
+    padding:25px;
+    width:340px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+input{
+    width:100%;
+    padding:8px;
+    margin:8px 0;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+
+.btn{
+    background:#2da44e;
+    color:white;
+    border:none;
+    padding:10px;
+    width:100%;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+#puzzle{
+    width:300px;
+    height:300px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:2px;
+    margin:auto;
+}
+
+.piece{
+    width:100px;
+    height:100px;
+    background-image:url("https://picsum.photos/300");
+    background-size:300px 300px;
+    cursor:grab;
+}
+
+#captchaMsg{
+    text-align:center;
+    color:green;
+    display:none;
+    font-weight:bold;
+}
+</style>
 </head>
 
 <body>
 
-    <div class="box" id="loginPage">
-        <center>
-            <h1>Sign In</h1>
+<div class="box">
 
-            <form name="myForm" onsubmit="return validateForm()">
-                <label>Name:</label>
-                <input type="text" name="name" required><br><br>
+<h2>Sign In</h2>
 
-                <label>Email:</label>
-                <input type="email" name="email" required><br><br>
+<form name="myForm" onsubmit="return validateForm(event)">
 
-                <label>Password:</label>
-                <input type="password" name="password" required><br><br>
+<input type="text" name="name" placeholder="Name" required>
+<input type="email" name="email" placeholder="Email" required>
+<input type="password" name="password" placeholder="Password" required>
+<input type="tel" name="phone" placeholder="Phone Number">
 
-                <label>Phone No.:</label>
-                <input type="tel" name="phone" placeholder="0123456789"><br><br>
+<h4>Arrange Image Puzzle:</h4>
 
-                <input type="submit" value="Sign In">
-            </form>
-        </center>
-    </div>
+<div id="puzzle"></div>
 
-    <div id="successPage" style="display:none;">
-        <center>
-            <h1>YOU ARE SUCCESSFULLY SIGNED IN ✅</h1>
-            <p>Redirecting to login page...</p>
-        </center>
-    </div>
+<div id="captchaMsg">✅ Puzzle Solved</div>
 
-    <script>
-        function validateForm() {
-            let name = document.myForm.name.value;
-            let email = document.myForm.email.value;
-            let password = document.myForm.password.value;
-            let phone = document.myForm.phone.value;
+<input type="submit" value="Sign In" class="btn">
 
-            if (name === "") {
-                alert("Name must be filled out");
-                return false;
+</form>
+</div>
+
+<script>
+
+const puzzle=document.getElementById("puzzle");
+let solved=false;
+let dragSrc=null;
+
+/* CREATE PUZZLE */
+function createPuzzle(){
+
+    let order=[0,1,2,3,4,5,6,7,8];
+
+    // shuffle array
+    order.sort(()=>Math.random()-0.5);
+
+    puzzle.innerHTML="";
+
+    order.forEach(num=>{
+
+        let div=document.createElement("div");
+        div.className="piece";
+        div.draggable=true;
+
+        div.dataset.index=num; // IMPORTANT
+
+        let x=num%3;
+        let y=Math.floor(num/3);
+
+        div.style.backgroundPosition=`-${x*100}px -${y*100}px`;
+
+        puzzle.appendChild(div);
+    });
+
+    addDragEvents();
+}
+
+/* DRAG EVENTS */
+function addDragEvents(){
+
+    document.querySelectorAll(".piece").forEach(piece=>{
+
+        piece.addEventListener("dragstart",function(){
+            dragSrc=this;
+        });
+
+        piece.addEventListener("dragover",e=>e.preventDefault());
+
+        piece.addEventListener("drop",function(){
+
+            if(dragSrc!==this){
+
+                // swap dataset index
+                let tempIndex=this.dataset.index;
+                this.dataset.index=dragSrc.dataset.index;
+                dragSrc.dataset.index=tempIndex;
+
+                // swap image position
+                let tempBg=this.style.backgroundPosition;
+                this.style.backgroundPosition=
+                    dragSrc.style.backgroundPosition;
+                dragSrc.style.backgroundPosition=tempBg;
+
+                checkSolved();
             }
+        });
+    });
+}
 
-            let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-            if (!email.match(emailPattern)) {
-                alert("Please enter a valid email address");
-                return false;
-            }
+/* CHECK SOLVED */
+function checkSolved(){
 
-            if (password.length < 6) {
-                alert("Password must be at least 6 characters long");
-                return false;
-            }
+    let pieces=document.querySelectorAll(".piece");
 
-            let phonePattern = /^[6-9][0-9]{9}$/;
-            if (phone !== "" && !phone.match(phonePattern)) {
-                alert("Phone number must be 10 digits starting with 6-9");
-                return false;
-            }
+    solved=true;
 
-            document.getElementById("loginPage").style.display = "none";
-            document.getElementById("successPage").style.display = "block";
-
-            setTimeout(() => {
-                document.getElementById("successPage").style.display = "none";
-                document.getElementById("loginPage").style.display = "block";
-                document.myForm.reset();
-            }, 3000);
-
-            return fals
+    pieces.forEach((piece,i)=>{
+        if(Number(piece.dataset.index)!==i){
+            solved=false;
         }
-    </script>
+    });
+
+    if(solved){
+        document.getElementById("captchaMsg").style.display="block";
+    }
+}
+
+/* FORM VALIDATION */
+function validateForm(e){
+
+    e.preventDefault();
+
+    let email=document.myForm.email.value;
+    let password=document.myForm.password.value;
+    let phone=document.myForm.phone.value;
+
+    let emailPattern=/^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    let phonePattern=/^[6-9][0-9]{9}$/;
+
+    if(!email.match(emailPattern)){
+        alert("Invalid email");
+        return false;
+    }
+
+    if(password.length<6){
+        alert("Password must be 6 characters");
+        return false;
+    }
+
+    if(phone!=="" && !phone.match(phonePattern)){
+        alert("Invalid phone number");
+        return false;
+    }
+
+    if(!solved){
+        alert("Please solve the puzzle captcha!");
+        return false;
+    }
+
+    alert("YOU ARE SUCCESSFULLY SIGNED IN ✅");
+
+    window.location.href="login.html";
+
+    return false;
+}
+
+createPuzzle();
+
+</script>
 
 </body>
 </html>

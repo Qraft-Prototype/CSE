@@ -1,227 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>LOGIN FORM</title> 
-    <style>
-        body {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-                        url('E:/imgs/main.jpg') no-repeat center center/cover;
-            background-color: #2c3e50;
-            font-family: 'Segoe UI', sans-serif;
-            overflow: hidden;
-        }
+<meta charset="UTF-8">
+<title>LOGIN FORM</title>
 
-        /* Party Animation */
-        #party-zone {
-            display: none;
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 50px;
-            pointer-events: none;
-            z-index: 10;
-        }
+<style>
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 
-        .party-item {
-            width: 0;
-            height: 0;
-            border-left: 40px solid transparent;
-            border-right: 40px solid transparent;
-            border-bottom: 80px solid #f1c40f;
-            position: relative;
-            animation: bounce 0.5s infinite alternate, rainbow 1s infinite linear;
-        }
+    /* Your Provided Background Image */
+    background: url("https://media.istockphoto.com/id/2163983591/vector/abstract-multicolored-gradient-vector-background-design-wallpaper-template-with-geometric.jpg?s=612x612&w=0&k=20&c=wb1CT6XfnlzyhA63kMaN6LW0EM-ltGJSPSPlSW9qHos=")
+    no-repeat center center;
 
-        .party-item::after {
-            content: '';
-            position: absolute;
-            top: -15px;
-            left: -12px;
-            width: 25px;
-            height: 25px;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 0 15px white;
-        }
+    background-size: cover;
 
-        @keyframes bounce {
-            from { transform: translateY(0) rotate(-10deg); }
-            to { transform: translateY(-30px) rotate(10deg); }
-        }
+    font-family: 'Segoe UI', sans-serif;
+}
 
-        @keyframes rainbow {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
-        }
+.container {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
 
-        /* Login Box */
-        .login-box {
-            width: 400px;
-            padding: 40px;
-            background: rgba(255,255,255,0.95);
-            border-radius: 15px;
-            box-shadow: 0px 10px 30px rgba(0,0,0,0.5);
-            text-align: center;
-            transition: all 0.5s ease;
-            z-index: 5;
-        }
+#loginIcon {
+    width: 220px;
+    transition: transform 0.6s ease;
+}
 
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 30px;
-        }
+.login-box {
+    width: 420px;
+    padding: 45px;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    text-align: center;
+    transition: 0.4s ease;
+    border: 1px solid rgba(255,255,255,0.3);
+    background-image: url("https://t3.ftcdn.net/jpg/03/55/60/70/360_F_355607062_zYMS8jaz4SfoykpWz5oViRVKL32IabTP.jpg");
+    background-size: cover;
+    background-position: center;
+}
 
-        .input-group {
-            text-align: left;
-            margin-bottom: 20px;
-        }
+h1 {
+    margin-bottom: 30px;
+    color: #2c3e50;
+}
 
-        label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: block;
-            color: #34495e;
-        }
+.input-group {
+    margin-bottom: 22px;
+    text-align: left;
+}
 
-        input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            outline: none;
-            transition: 0.3s;
-        }
+label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #34495e;
+    margin-bottom: 6px;
+    display: block;
+}
 
-        input:focus {
-            border-color: #3498db;
-            box-shadow: 0 0 5px rgba(52,152,219,0.5);
-        }
+input {
+    width: 100%;
+    padding: 13px;
+    border-radius: 8px;
+    border: 1px solid #dcdcdc;
+    font-size: 14px;
+    background: #f9f9f9;
+    transition: all 0.3s ease;
+}
 
-        .submit-btn {
-            width: 100%;
-            padding: 12px;
-            background-color: #27ae60;
-            color: white;
-            font-weight: bold;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+input:focus {
+    border-color: #3498db;
+    background: #fff;
+    box-shadow: 0 0 8px rgba(52,152,219,0.4);
+    transform: scale(1.02);
+}
 
-        .submit-btn:hover {
-            background-color: #2ecc71;
-            transform: scale(1.02);
-        }
+/* CAPTCHA CONTAINER */
+.captcha-container {
+    background: #f4f6f7;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    margin-bottom: 10px;
+}
 
-        .success-text {
-            display: none;
-            color: #27ae60;
-            font-size: 24px;
-            font-weight: bold;
-            margin-top: 20px;
-            animation: fadeIn 0.5s;
-        }
+canvas {
+    border-radius: 8px;
+    border: 1px solid #bbb;
+    background: white;
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+/* INPUT + ROUND REFRESH BUTTON */
+.captcha-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-        /* Login Icon */
-        #loginIcon {
-            width: 240px;
-            height: 240px;
-            margin-right: 40px;
-            transition: transform 0.5s ease;
-        }
-    </style>
+.captcha-input-wrapper input {
+    flex: 1;
+}
+
+/* ROUND ARROW BUTTON */
+.refresh-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #3498db, #5dade2);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.refresh-btn:hover {
+    transform: rotate(180deg) scale(1.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.refresh-btn:active {
+    transform: scale(0.95);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(45deg,#27ae60,#2ecc71);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-size: 15px;
+    margin-top: 15px;
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+}
+
+.success-text {
+    display: none;
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #27ae60;
+}
+
+#party-zone {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    pointer-events: none;
+}
+
+.party-item {
+    width: 0;
+    height: 0;
+    border-left: 40px solid transparent;
+    border-right: 40px solid transparent;
+    border-bottom: 80px solid #f1c40f;
+    animation: bounce 0.5s infinite alternate;
+}
+
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-25px); }
+}
+</style>
 </head>
 
 <body>
 
-    <!-- Key / Tick Icon -->
-    <img
-        id="loginIcon"
-        src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png"
-        alt="Login Icon"
-    >
+<div class="container">
 
-    <!-- Party Zone -->
-    <div id="party-zone">
-        <div class="party-item"></div>
-        <div class="party-item"></div>
-    </div>
+    <img id="loginIcon"
+    src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png">
 
-    <!-- Login Box -->
     <div class="login-box" id="loginBox">
+
         <h1>LOGIN FORM</h1>
+
         <form id="loginForm">
+
             <div class="input-group">
                 <label>USERNAME</label>
-                <input type="text" id="uname" placeholder="Enter username..." required>
+                <input type="text" id="uname" placeholder="Enter username">
             </div>
 
             <div class="input-group">
                 <label>PASSWORD</label>
-                <input type="password" id="pwd" placeholder="Enter password..." required>
+                <input type="password" id="pwd" placeholder="Enter password">
             </div>
 
-            <button type="button" id="btn" class="submit-btn">SUBMIT</button>
-            <br>
-            <h5>Don't have an account? <a href="Signin.html">Create_one</a></h5>
+            <!-- CAPTCHA -->
+            <div class="input-group">
+                <label>CAPTCHA</label>
+
+                <div class="captcha-container">
+                    <canvas id="captchaCanvas" width="200" height="60"></canvas>
+                </div>
+
+                <div class="captcha-input-wrapper">
+                    <input type="text" id="captchaInput" placeholder="Enter captcha text">
+                    <button type="button" class="refresh-btn" onclick="generateCaptcha()">↻</button>
+                </div>
+            </div>
+            
+
+            </h6><button type="button" id="btn" class="submit-btn">SUBMIT</button>
+           <br>
+           <h5>Don't have account? 
+            <a href="Signin.html">signup_here</a></h6>
         </form>
 
         <div id="success-msg" class="success-text">Redirecting...</div>
+
     </div>
+</div>
 
-    <script>
-        const n = document.getElementById("uname");
-        const p = document.getElementById("pwd");
-        const btn = document.getElementById("btn");
-        const partyZone = document.getElementById("party-zone");
-        const loginBox = document.getElementById("loginBox");
-        const successMsg = document.getElementById("success-msg");
-        const form = document.getElementById("loginForm");
-        const loginIcon = document.getElementById("loginIcon");
+<div id="party-zone">
+    <div class="party-item"></div>
+    <div class="party-item"></div>
+</div>
 
-        btn.addEventListener("click", function () {
-            if (n.value.trim() === "") {
-                alert("Fill the Username Field");
-                n.focus();
-            } else if (p.value.trim() === "") {
-                alert("Fill the Password Field");
-                p.focus();
-            } else {
-                // Success actions
-                form.style.display = "none";
-                successMsg.style.display = "block";
-                partyZone.style.display = "flex";
+<script>
+const n = document.getElementById("uname");
+const p = document.getElementById("pwd");
+const btn = document.getElementById("btn");
+const partyZone = document.getElementById("party-zone");
+const loginBox = document.getElementById("loginBox");
+const successMsg = document.getElementById("success-msg");
+const form = document.getElementById("loginForm");
+const loginIcon = document.getElementById("loginIcon");
 
-                // Change key to tick
-                loginIcon.src = "https://cdn-icons-png.flaticon.com/512/1828/1828640.png";
-                loginIcon.style.transform = "scale(1.2) rotate(360deg)";
+const canvas = document.getElementById("captchaCanvas");
+const ctx = canvas.getContext("2d");
+const captchaInput = document.getElementById("captchaInput");
 
-                loginBox.style.borderColor = "#27ae60";
-                loginBox.style.transform = "scale(1.1)";
+let captchaText = "";
 
-                // Redirect
-                setTimeout(() => {
-                    window.location.href = "Dom.html";
-                }, 2500);
-            }
-        });
-    </script>
+function randomText(length) {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let result = "";
+    for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+}
+
+function randomColor() {
+    return "rgb(" +
+        Math.floor(Math.random() * 150) + "," +
+        Math.floor(Math.random() * 150) + "," +
+        Math.floor(Math.random() * 150) + ")";
+}
+
+function generateCaptcha() {
+    captchaText = randomText(5);
+    ctx.clearRect(0, 0, 200, 60);
+
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, 200, 60);
+
+    for (let i = 0; i < 7; i++) {
+        ctx.strokeStyle = randomColor();
+        ctx.beginPath();
+        ctx.moveTo(Math.random()*200, Math.random()*60);
+        ctx.lineTo(Math.random()*200, Math.random()*60);
+        ctx.stroke();
+    }
+
+    ctx.font = "30px Arial";
+    ctx.fillStyle = randomColor();
+    ctx.setTransform(1, 0.2, -0.2, 1, 0, 0);
+    ctx.fillText(captchaText, 35, 40);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+    captchaInput.value = "";
+}
+
+generateCaptcha();
+
+btn.addEventListener("click", function () {
+
+    if (n.value.trim() === "") {
+        alert("Enter Username");
+    }
+    else if (p.value.trim() === "") {
+        alert("Enter Password");
+    }
+    else if (captchaInput.value.toUpperCase() !== captchaText) {
+        alert("Invalid CAPTCHA!");
+        generateCaptcha();
+    }
+    else {
+        form.style.display = "none";
+        successMsg.style.display = "block";
+        partyZone.style.display = "flex";
+
+        loginIcon.src = "https://cdn-icons-png.flaticon.com/512/1828/1828640.png";
+        loginIcon.style.transform = "scale(1.2) rotate(360deg)";
+
+        loginBox.style.border = "3px solid #27ae60";
+        loginBox.style.transform = "scale(1.05)";
+
+        setTimeout(() => {
+            window.location.href = "main.html";
+        }, 2500);
+    }
+});
+</script>
 
 </body>
 </html>
