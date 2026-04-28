@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>QRAFT – QR Generator</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-image: url("https://media.istockphoto.com/id/1356565277/photo/modern-abstract-wavy-background.jpg");
+  background-size: cover;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: #111;
+  color: #fff;
+}
+
+.main-box {
+  width: 520px;
+  background: #000;
+  margin: 60px auto;
+  border-radius: 16px;
+  padding: 20px;
+  color: #fff;
+}
+
+.main-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #22c55e;
+  cursor: pointer;
+}
+
+.section {
+  display: none;
+  margin-top: 20px;
+}
+
+.section.active {
+  display: block;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 10px;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.controls button {
+  flex: 1;
+  padding: 10px;
+  background: #22c55e;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#qrcode {
+  background: #fff;
+  padding: 10px;
+  margin: 10px auto;
+  width: fit-content;
+}
+
+.download-btn {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #22c55e;
+  background: transparent;
+  color: #22c55e;
+  border-radius: 8px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="main-box">
+
+  <div class="main-links">
+    <button class="link-btn" onclick="showSection('url')">URL</button>
+    <button class="link-btn" onclick="showSection('xml')">XML</button>
+  </div>
+
+  <!-- URL -->
+  <div id="url" class="section active">
+    <input type="text" id="urlInput" placeholder="Enter URL">
+    <div class="controls">
+      <button onclick="generateQR(document.getElementById('urlInput').value)">Generate</button>
+    </div>
+  </div>
+
+  <!-- XML -->
+  <div id="xml" class="section">
+    <input type="file" id="xmlFile" accept=".xml">
+    <textarea id="xmlContent" placeholder="XML content will appear here..."></textarea>
+
+    <div class="controls">
+      <button onclick="generateQR(document.getElementById('xmlContent').value)">
+        Generate QR
+      </button>
+    </div>
+  </div>
+
+  <div id="qrcode"></div>
+  <button class="download-btn" onclick="downloadQR()">Download QR</button>
+
+</div>
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+/* ===== XML FILE READ ===== */
+document.getElementById("xmlFile").addEventListener("change", function(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById("xmlContent").value = e.target.result;
+  };
+  reader.readAsText(file);
+});
+
+/* ===== GENERATE QR ===== */
+function generateQR(data) {
+  if (!data) {
+    alert("Enter data first!");
+    return;
+  }
+
+  document.getElementById("qrcode").innerHTML = "";
+
+  new QRCode("qrcode", {
+    text: data,
+    width: 180,
+    height: 180
+  });
+}
+
+/* ===== DOWNLOAD ===== */
+function downloadQR() {
+  const canvas = document.querySelector("#qrcode canvas");
+  if (!canvas) return alert("Generate QR first!");
+
+  const link = document.createElement("a");
+  link.download = "qr-code.png";
+  link.href = canvas.toDataURL();
+  link.click();
+}
+</script>
+
+</body>
+</html>
